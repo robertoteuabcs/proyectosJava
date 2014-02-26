@@ -7,9 +7,11 @@ public class Mostrar {
 		CreadorVentana nueva = new  CreadorVentana(0,0,null);
 		nueva.setaltura(200);
 		nueva.setancho(400);
-		nueva.setitulo("Ventana");
+		nueva.setitulo("Calculadora");
 		
 		nueva.mostrar();
+		
+		
 		
 		
 	}

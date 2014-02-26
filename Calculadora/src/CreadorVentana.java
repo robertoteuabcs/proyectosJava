@@ -29,12 +29,10 @@ public class CreadorVentana extends JFrame
 	    add(new JButton("Oeste"),BorderLayout.WEST);
 	    add(new JButton("Este"),BorderLayout.EAST);*/
 	    add(new TextPanel(),BorderLayout.CENTER);
+	    TextCal cajatexto=new TextCal();
+	   // add(new TextCal(),BorderLayout.NORTH);
 	    
-	    TextPanel teclado=new TextPanel();
-	    
-		
-		
-		
+
 	}
 	public CreadorVentana()
 	{

@@ -15,18 +15,30 @@ public class TextPanel extends JPanel
 	private JTextArea textArea;
 	private JButton btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0,
 	suma,resta,division,multiplicacion,igual;
-	double resultado=0,aux=0;
+	int resultado=0,aux=0;
+	TextCal varia;
+	JPanel text;
 	
 	public TextPanel ()
 	{
-		setLayout(new GridLayout(3, 3, 0, 0));
-		//JPanel pg1 = new JPanel(new GridLayout(1, 1, 0, 0)); // Panel de caja de texto
 		textArea=new JTextArea();
-		textArea.setBorder(new EmptyBorder(4,4,4,4));
-		//textArea.setText("0");
-		add(new JScrollPane(textArea),BorderLayout.NORTH);	
+		textArea.setLayout(new BorderLayout());
+		textArea.setLayout(new GridLayout(1, 1, 0, 0));
+		//add(textArea);
 		
+		add(new JScrollPane(textArea),BorderLayout.NORTH);
+		setLayout(new BorderLayout());
+		setLayout(new GridLayout(5, 5, 0, 0));
 		
+		//TextCal cajatexto=new TextCal();
+	    //int num=Integer.parseInt(cajatexto.getTextArea().getText());
+		//JPanel pg1 = new JPanel(new GridLayout(1, 1, 0, 0)); // Panel de caja de texto
+
+		//textArea.setBorder(new EmptyBorder(2,2,2,2));
+				//textArea.setLayout(new GridLayout(4, 4, 0, 0));
+				//textArea.setText("0");
+				//add(new JScrollPane(textArea),BorderLayout.NORTH);	
+		//add(new TextCal(),BorderLayout.CENTER);
 		btn1=new JButton("1");
 		btn1.addActionListener(new ActionListener()
 		{
@@ -34,7 +46,8 @@ public class TextPanel extends JPanel
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				textArea.append("1");
-				aux+=1;
+				//varia.setTextArea("1");
+				//cajatexto.setTextArea("1");
 			}	
 		});
 		
@@ -45,7 +58,7 @@ public class TextPanel extends JPanel
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				textArea.append("2");
-				aux+=2;
+				
 			}	
 		});
 		btn3=new JButton("3");
@@ -120,20 +133,66 @@ public class TextPanel extends JPanel
 				textArea.append("0");
 			}	
 		});
+		
 		suma=new JButton("+");
-		btn0.addActionListener(new ActionListener()
+		suma.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
 				aux+=Integer.parseInt(textArea.getText());
-				textArea.append("3");
+				
+				textArea.setText(null);
 			}	
 		});
-		resta=new JButton("-");
+		
+		igual=new JButton("=");
+		igual.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				textArea.setText(null);
+				textArea.append(String.valueOf(aux));
+			}	
+		});
+		
 		division=new JButton("/");
+		division.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int auxd=Integer.parseInt(textArea.getText());
+				aux=auxd/aux;
+				textArea.setText(null);
+			}	
+		});
+		
 		multiplicacion=new JButton("*");
+		multiplicacion.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int auxm=Integer.parseInt(textArea.getText());
+				aux=auxm*aux;
+				textArea.setText(null);
+			}	
+		});
+		
+		resta=new JButton("-");
+		resta.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				int aux2=Integer.parseInt(textArea.getText());
+				aux=aux2-aux;
+				textArea.setText(null);
+			}	
+		});
+		
 		add("Center",btn1);
 		add("Center",btn2);
 		add("Center",btn3);
@@ -148,6 +207,7 @@ public class TextPanel extends JPanel
 		add("Center",multiplicacion);
 		add("Center",resta);
 		add("Center",division);
+		add("South",igual);
 		
 		
 		
