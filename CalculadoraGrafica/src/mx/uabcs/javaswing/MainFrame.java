@@ -17,7 +17,7 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		
-		super("Hello World");
+		super("Calculadora Sencilla UABCS");
 		
 		setLayout(new BorderLayout());
 		
