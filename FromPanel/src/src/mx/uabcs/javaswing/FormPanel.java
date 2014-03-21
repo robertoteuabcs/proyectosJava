@@ -20,9 +20,9 @@ public class FormPanel extends JPanel {
 	private JLabel nameLabel;
 	private JLabel ocupattionLabel;
 	private JTextField nameField;
-	private JTextField ocupattionField;
+	private JTextField occupationField;
 	private JButton okBtn;
-	
+	//Form Listener
 	private FormListener formListener;
 	
 	public FormPanel(){
@@ -34,8 +34,22 @@ public class FormPanel extends JPanel {
 	nameLabel=new JLabel("Nombre: ");
 	nameField =new JTextField(10);
 	ocupattionLabel=new JLabel("Ocupattion: ");
-	ocupattionField=new JTextField(10);
+	occupationField=new JTextField(10);
 	okBtn=new JButton("OK");
+	okBtn.addActionListener(new ActionListener(){
+		@Override
+		public void actionPerformed(ActionEvent e){
+			//TODO Auto-generated method stub
+			String name=nameField.getText();
+			String occupation=occupationField.getText();
+			
+			FormEvent eve= new FormEvent(this,name,occupation);
+			if(formListener!=null){
+				formListener.formEventOcurred(eve);
+			}
+			
+		}
+	});
 
 	//BOrder
 	Border innerBorder=BorderFactory.createTitledBorder("Agregar Personas");
@@ -78,8 +92,8 @@ public class FormPanel extends JPanel {
 	gc.gridx=1;
 	gc.insets=new Insets(0,0,0,0);
 	gc.anchor=GridBagConstraints.LINE_START;
-	add(ocupattionField,gc);
-	//////////////tercer}//////////////////////////////////////////////
+	add(occupationField,gc);
+	//////////////tercer//////////////////////////////////////////////
 	gc.weightx=1;
 	gc.weighty=2.0;
 	

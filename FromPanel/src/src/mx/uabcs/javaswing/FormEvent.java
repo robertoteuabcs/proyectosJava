@@ -12,7 +12,7 @@ public class FormEvent extends EventObject{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public FormEvent (Object source,String name,String Occupation){
+	public FormEvent (Object source,String name,String occupation){
 		super(source);
 		this.name=name;
 		this.occupation=occupation;

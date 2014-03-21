@@ -25,7 +25,18 @@ public class MainFrame extends JFrame {
 		btn = new JButton("Click me");
 		textPanel = new TextPanel();
 		formpanel=new FormPanel();
-		
+		formpanel.setFormListener(new FormListener(){
+
+			@Override
+			public void formEventOcurred(FormEvent e) {
+				// TODO Auto-generated method stub
+				String name=e.getName();
+				String occupation=e.getOccupation();
+				
+				textPanel.appendText(name+":"+occupation+"\n");
+				}
+			
+		});
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textPanel.appendText("Hello\n");
