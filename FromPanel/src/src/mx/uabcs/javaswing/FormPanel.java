@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +25,9 @@ public class FormPanel extends JPanel {
 	private JButton okBtn;
 	//Form Listener
 	private FormListener formListener;
+	private FormArrayListener listener;
+	
+	//ArrayList <FormEvent> lista= new ArrayList <FormEvent> ();
 	
 	public FormPanel(){
 		Dimension dim = getPreferredSize();
@@ -44,6 +48,12 @@ public class FormPanel extends JPanel {
 			String occupation=occupationField.getText();
 			
 			FormEvent eve= new FormEvent(this,name,occupation);
+			//lista.add(eve);
+			
+			//if(formListener!=null){
+				//formListener.formEventOcurred(eve);
+			//}
+			
 			if(formListener!=null){
 				formListener.formEventOcurred(eve);
 			}
@@ -109,5 +119,9 @@ public class FormPanel extends JPanel {
 	public void setFormListener(FormListener listener){
 		this.formListener=listener;
 		
+	}
+	
+	public void setFormArrayListener(FormArrayListener lista){
+		this.listener=lista;
 	}
 }
