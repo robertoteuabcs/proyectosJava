@@ -47,8 +47,12 @@ public class MainFrame extends JFrame {
 				// TODO Auto-generated method stub
 				for(FormEvent fe: lista){
 					//System.out.println(fe.getName());
-					//System.out.println(fe.getOccupation());
-					textPanel.appendText(fe.getName()+" : "+fe.getOccupation());
+
+					textPanel.appendText("Nombre: "+fe.getName()+" \n"+"Ocupacion: "+fe.getOccupation()
+							+"\n"+"Edad: "+fe.getAgeCatogory()+"\n"+"Empleo: "+fe.getIdCombo()+"\n"+"Genero:"+fe.getGender()+
+							"\n"+"Pais:"+fe.getPais1());
+					textPanel.appendText("\n");
+					textPanel.appendText("-------------------------------------------------");
 					textPanel.appendText("\n");
 				}
 			}

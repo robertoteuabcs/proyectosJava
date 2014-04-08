@@ -69,6 +69,7 @@ public class Toolbar extends JPanel implements ActionListener {
 			if(arrayListener!= null){
 				//textListener.textEmitted("Goodbye\n");
 				arrayListener.arrayEmitted(this.myList);
+				
 			}
 		}
 	}
