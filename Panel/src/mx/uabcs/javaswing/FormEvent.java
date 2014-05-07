@@ -10,8 +10,16 @@ public class FormEvent extends EventObject{
 	private String idCombo;
 	private String gender;
 	private String pais1;
-	//private int id;
+	private int id;
 	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public FormEvent(Object source) {
 		super(source);

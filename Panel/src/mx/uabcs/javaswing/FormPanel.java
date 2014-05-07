@@ -7,6 +7,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -25,13 +29,15 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 
+import mx.uabcs.javaswing.DataConnection;
+
 public class FormPanel extends JPanel {
 
-	private JLabel nameLabel;
+	private JLabel nameLabel,buscadorIdLabel;
 	private JLabel occupationLabel;
-	private JTextField nameField;
+	private JTextField nameField,buscarId;
 	private JTextField occupationField;
-	private JButton okBtn;
+	private JButton okBtn,borrar,actualizar;
 	private JList ageList; //Lista las edades	
 	private JComboBox empCombo;
 	private JRadioButton maleRadio;
@@ -40,15 +46,46 @@ public class FormPanel extends JPanel {
 	private ButtonGroup genderGroup;
 	private JCheckBox checkBox;
 	private JTextField pais;
+	String pais1;
 	private CheckboxGroup box;
-	
+	private static DataConnection mc = DataConnection.getInstance();
 	private FormListener formListener;
 	
+	//Dclaraciones de los arreglos con nombres, ocupantes y paises
+	String[] arregloNombres = new String[]{"Juan Antonio","Alberto Lopez","Junior Paez","Jose Perez","Will Moca",
+			 "Rolando Mota","Cafesino Late","Negro Guluarte","Peludo Ardrade","Yoshio Duarte","Roberto Bourjac",
+			 "Nadia Lopz","Maria Consepcion","Morena Culto","Lucinda Drug","Veronica Frank","Fresh Rap",
+			 "Principe del Rap","Karla Juarez","Pamela Kenia","Perla Hirales","Juan Jose","Humberto Ignacio",
+			 "Gloria Comundo","Fausto Peralta"};
+	String[] arreglOcupacion=new String[]{"Albañil","Mecanico","repartidor","Programador","Plomero",
+											"Mercadologo","Sirvienta","Niñera","cajero(a)","Farmaco",
+											"Electrico","Herrero","secretaria","Verdulero","Mercado",
+											"Inspector","Pintor","Escritor","Biologo","Geologo","Maestro",
+											"Comediante","Camarografo","Asistente","Pintor","Instalador"
+	};
+	
+	String[] arregloPais=new String[]{"Honduras","Panama","Holanda","Paraguay","Colombia",
+									"Chile","Bolivia","Brazil","Uruguay","Salvador",
+									"China","Indonesia","Corea","Vietnam","Dubai",
+									"Canada","USA","Antartida","Greolandia","Belize",
+									"Peru","España","Italia","Francia","Inglaterra"
+	};
+	
+	String[] arregloEdad=new String[]{"18-35","36-45","46 ymas"};
+	
+	String[] arregloEmpleado=new String[]{"Empleado","Por Contrato","No es Empleado"};
+	
+	String[] arregloGenero=new String[]{"Masculino","Femenino","Otro"};
+	
+	
+	
 	public FormPanel() {
+		
 		Dimension dim = getPreferredSize();
 		dim.width = 250;
 		setPreferredSize(dim);
-		
+		buscadorIdLabel=new JLabel("ID: ");
+		buscarId=new JTextField(5);
 		nameLabel = new JLabel("Nombre: ");
 		occupationLabel = new JLabel("OcupaciÃ³n: ");
 		nameField = new JTextField(10);
@@ -62,7 +99,7 @@ public class FormPanel extends JPanel {
 		femeRadio.setActionCommand("Femenino");
 		otherRadio =new JRadioButton("Otro");
 		otherRadio.setActionCommand("Otro");
-		
+		final DatabaseLayer dbl = new DatabaseLayer();
 		genderGroup= new ButtonGroup();
 		maleRadio.setSelected(true);
 		genderGroup.add(maleRadio);
@@ -112,13 +149,69 @@ public class FormPanel extends JPanel {
 		empCombo.setModel(empModel);
 		empCombo.setSelectedIndex(0);
 		
+		actualizar=new JButton("Actualizar");
+		borrar.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String name = nameField.getText();
+				String occupation = occupationField.getText();
+				AgeCategory ageCat = (AgeCategory)ageList.getSelectedValue();
+				int edad = ageCat.getId();
+				String rango = ageCat.AgeCategory();
+				EmployeEmplyCategory empCat = (EmployeEmplyCategory)empCombo.getSelectedItem();
+				int contrato=(contrato.getId());
+				//String empTipo = contrato.getText();
+				String gender = genderGroup.getSelection().getActionCommand();
+				System.out.println(gender);
+				String nacionalidad;
+
+				if (checkBox.isSelected()==true) {
+	            	pais1="Mexicano";
+				} 
+				else{
+				if(checkBox.isSelected()==false){
+					 pais1=pais.getName();
+				}
+			}
+
+				FormEvent ev = new FormEvent(this,name,occupation,rango,empTipo,gender,nacionalidad);
+				String indice = buscarId.getText();
+				dbl.actQuery(ev,indice);
+			}
+			
+		});
+		
+		
+		
+		borrar=new JButton("Borrar");
+		borrar.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				//DatabaseLayer conexion=new DatabaseLayer();
+				String sql = "delete from trabajador where id="+buscarId.getText();
+				dbl.borrar(sql);
+				JOptionPane.showMessageDialog(null,"Datos Borrados Correctamente","Confirmacion",
+						JOptionPane.PLAIN_MESSAGE);
+			}
+			
+		});
 		okBtn = new JButton("OK");
 		okBtn.addActionListener(new ActionListener() {
 			
-			String pais1;
+			
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				//boolean boo;
+				Random Rnombres=new Random();
+				Random Rocupacion=new Random();
+				Random Rpais=new Random();
+				Random REdad=new Random();
+				Random RGenero=new Random();
+				Random REmpleado=new Random();
 				if (checkBox.isSelected()==true) {
 		            	pais1=checkBox.getText();
 		        } 
@@ -143,7 +236,16 @@ public class FormPanel extends JPanel {
 				String gender=genderGroup.getSelection().getActionCommand();
 				//System.out.println(gender);
 				FormEvent ev = new FormEvent(this, name, occupation,id,idCombo,gender,pais1);
+				/*for(int hh=0;hh<100;hh++){
+					int randomGeneradoN=Rnombres.nextInt(24);
+					int randomGeneradoO=Rocupacion.nextInt(24);
+					int randomGeneradoP=Rpais.nextInt(24);
+					int randomGeneradoE=REdad.nextInt(3);
+					int randomGeneradoEm=REmpleado.nextInt(3);
+					int randomGeneradoG=RGenero.nextInt(3);
+				addProd(arregloNombres[randomGeneradoN], arreglOcupacion[randomGeneradoO],arregloEdad[randomGeneradoE],arregloEmpleado[randomGeneradoEm],arregloGenero[randomGeneradoG],arregloPais[randomGeneradoP]);
 				
+				}*/
 				if(formListener != null) {
 					formListener.formEventOcurred(ev);
 				}
@@ -163,7 +265,8 @@ public class FormPanel extends JPanel {
 				ageList.setSelectedIndex(0);
 				maleRadio.setSelected(true);
 				pais.setText(" ");
-
+				checkBox.setSelected(false);
+				
 			}
 		});
 		
@@ -174,8 +277,7 @@ public class FormPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		
 		GridBagConstraints gc = new GridBagConstraints();
-		//////////// First row ///////////////////////////////////
-		
+		///Buscador ID/////////////////
 		gc.weightx = 1;
 		gc.weighty = 0.1;
 		
@@ -184,10 +286,27 @@ public class FormPanel extends JPanel {
 		gc.fill = GridBagConstraints.NONE;
 		gc.anchor = GridBagConstraints.LINE_END;
 		gc.insets = new Insets(0, 0, 0, 5);
-		add(nameLabel, gc);
+		add(buscadorIdLabel, gc);
 		
 		gc.gridx = 1;
 		gc.gridy = 0;
+		gc.insets = new Insets(0, 0, 0, 0);
+		gc.anchor = GridBagConstraints.LINE_START;
+		add(buscarId, gc);
+		//////////// First row ///////////////////////////////////
+		
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		
+		gc.gridx = 0;
+		gc.gridy = 1;
+		gc.fill = GridBagConstraints.NONE;
+		gc.anchor = GridBagConstraints.LINE_END;
+		gc.insets = new Insets(0, 0, 0, 5);
+		add(nameLabel, gc);
+		
+		gc.gridx = 1;
+		gc.gridy = 1;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.LINE_START;
 		add(nameField, gc);
@@ -197,13 +316,13 @@ public class FormPanel extends JPanel {
 		gc.weightx = 1;
 		gc.weighty = 0.1;
 		
-		gc.gridy = 1;
+		gc.gridy = 2;
 		gc.gridx = 0;
 		gc.insets = new Insets(0, 0, 0, 5);
 		gc.anchor = GridBagConstraints.LINE_END;
 		add(occupationLabel, gc);
 		
-		gc.gridy = 1;
+		gc.gridy = 2;
 		gc.gridx = 1;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.LINE_START;
@@ -213,7 +332,7 @@ public class FormPanel extends JPanel {
 		gc.weightx = 1;
 		gc.weighty = 0.2;
 		
-		gc.gridy = 2;
+		gc.gridy = 3;
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.insets = new Insets(0, 0, 0, 0);
@@ -289,10 +408,27 @@ public class FormPanel extends JPanel {
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.insets = new Insets(0, 0, 0, 0);
 		add(okBtn, gc);
+		////////////////////////boton borrar/////////
+		gc.weightx = 1;
+		gc.weighty = 2.0;
+		
+		gc.gridy = 11;
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.insets = new Insets(0, 0, 0, 0);
+		add(borrar, gc);
 	}
 	
 	public void setFormListener(FormListener listener){
 		this.formListener = listener;
+	}
+	
+	static void addProd(String nom,String cat, String edad, String idCombo, String gender, String pais1){
+		try {
+			mc.inserta(nom,cat, edad, idCombo, gender, pais1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -305,6 +441,11 @@ class AgeCategory{
 		this.text=text;
 	}
 	
+	public String AgeCategory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public String toString(){
 		return text;
 	}
@@ -331,4 +472,5 @@ class EmployeEmplyCategory{
 		return id;
 	}
 }
+
 

@@ -58,13 +58,13 @@ public class MainFrame extends JFrame {
 			
 		});
 		
-		formpanel.setFormListener(new formListener());
+		/*formpanel.setFormListener(new formListener());
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textPanel.appendText("Hello\n");
 			}
 		});
-		add(formpanel,BorderLayout.WEST);
+		*/add(formpanel,BorderLayout.WEST);
 		add(toolbar, BorderLayout.NORTH);
 		add(textPanel, BorderLayout.CENTER);
 		add(btn, BorderLayout.SOUTH);
