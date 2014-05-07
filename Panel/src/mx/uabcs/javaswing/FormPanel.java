@@ -134,9 +134,9 @@ public class FormPanel extends JPanel {
 		});
 		
 		DefaultListModel ageModel =new DefaultListModel();
-		ageModel.addElement(new AgeCategory(66,"18 - 35"));
-		ageModel.addElement(new AgeCategory(77,"36 - 45"));
-		ageModel.addElement(new AgeCategory(99,"46 y mas"));
+		ageModel.addElement(new AgeCategory(66,"18"));
+		ageModel.addElement(new AgeCategory(77,"36"));
+		ageModel.addElement(new AgeCategory(99,"46"));
 		ageList.setModel(ageModel);
 		ageList.setPreferredSize(new Dimension(110,70));
 		ageList.setBorder(BorderFactory.createEtchedBorder());
@@ -150,33 +150,35 @@ public class FormPanel extends JPanel {
 		empCombo.setSelectedIndex(0);
 		
 		actualizar=new JButton("Actualizar");
-		borrar.addActionListener(new ActionListener(){
+		actualizar.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String name = nameField.getText();
-				String occupation = occupationField.getText();
-				AgeCategory ageCat = (AgeCategory)ageList.getSelectedValue();
-				int edad = ageCat.getId();
-				String rango = ageCat.AgeCategory();
-				EmployeEmplyCategory empCat = (EmployeEmplyCategory)empCombo.getSelectedItem();
-				int contrato=(contrato.getId());
-				//String empTipo = contrato.getText();
-				String gender = genderGroup.getSelection().getActionCommand();
-				System.out.println(gender);
-				String nacionalidad;
-
 				if (checkBox.isSelected()==true) {
-	            	pais1="Mexicano";
-				} 
-				else{
+	            	pais1=checkBox.getText();
+	        } 
+			else{
 				if(checkBox.isSelected()==false){
-					 pais1=pais.getName();
+					 pais1=pais.getText();
 				}
 			}
-
-				FormEvent ev = new FormEvent(this,name,occupation,rango,empTipo,gender,nacionalidad);
+			String name = nameField.getText();
+			String occupation = occupationField.getText();
+			
+			//JList
+			AgeCategory ageCat=(AgeCategory)ageList.getSelectedValue();
+			String id=ageCat.toString();
+			//ComboBox 
+			EmployeEmplyCategory empCat=(EmployeEmplyCategory)empCombo.getSelectedItem();
+			String idCombo=empCat.toString();
+					//empCombo.getSelectedItem()
+			//String valor = (String)empCombo.getSelectedItem();
+			//System.out.println(empCat.getId());
+			//System.out.println(ageCat.getId());
+			String gender=genderGroup.getSelection().getActionCommand();
+			//System.out.println(gender);
+			FormEvent ev = new FormEvent(this, name, occupation,id,idCombo,gender,pais1);
 				String indice = buscarId.getText();
 				dbl.actQuery(ev,indice);
 			}
@@ -417,6 +419,16 @@ public class FormPanel extends JPanel {
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gc.insets = new Insets(0, 0, 0, 0);
 		add(borrar, gc);
+		
+		///////////////Boton actualizar/////////
+		gc.weightx = 1;
+		gc.weighty = 2.0;
+		
+		gc.gridy = 12;
+		gc.gridx = 1;
+		gc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gc.insets = new Insets(0, 0, 0, 0);
+		add(actualizar, gc);
 	}
 	
 	public void setFormListener(FormListener listener){
@@ -433,26 +445,33 @@ public class FormPanel extends JPanel {
 }
 
 class AgeCategory{
-	private int id;
-	private String text;
-	
-	public AgeCategory(int id, String text){
-		this.id=id;
-		this.text=text;
-	}
-	
-	public String AgeCategory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+private int id;
+private String text;
 
-	public String toString(){
-		return text;
-	}
-	
-	public int getId(){
-		return id;
-	}
+public AgeCategory(int id, String text){
+this.id=id;
+this.text=text;
+}
+
+public int getId() {
+return id;
+}
+
+public void setId(int id) {
+this.id = id;
+}
+
+public String getText() {
+return text;
+}
+
+public void setText(String text) {
+this.text = text;
+}
+
+public String toString(){
+return text;
+}	
 }
 
 class EmployeEmplyCategory{

@@ -94,11 +94,11 @@ public class DatabaseLayer {
 				String sql = "UPDATE trabajador "+ "SET "+"nombre ="+"'"+fe.getName()+"',"+
 				"ocupacion ="+"'"+fe.getOccupation()+"',"+
 				"edad="+fe.getAgeCatogory()+","+
-				"contrato="+"'"+fe.getOccupation()+"',"+
+				"contrato="+"'"+fe.getIdCombo()+"',"+
 				"genero="+"'"+fe.getGender()+"',"+
 				"pais="+"'"+fe.getPais1()+"'"+
 				" where id="+indice+";";
-				//System.out.println(sql);
+				System.out.println(sql);
 				stm.executeUpdate(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
