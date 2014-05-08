@@ -7,9 +7,11 @@ public class FormEvent extends EventObject{
 	private String name;
 	private String occupation;
 	private String ageCatogory;
-	private String idCombo;
+	private int idCombo;
 	private String gender;
+	private int nacion_id;
 	private String pais1;
+	private String empleado;
 	private int id;
 	
 
@@ -26,16 +28,21 @@ public class FormEvent extends EventObject{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public FormEvent(Object source, String name, String occupation,String id,String idCombo,String gender,String pais1){
+	public FormEvent(Object source, String name, String occupation,String id,int idempleado,String empleado,int idPais,String gender,String pais1){
 		super(source);
 		this.name = name;
 		this.occupation = occupation;
 		this.ageCatogory=id;
-		this.idCombo=idCombo;
+		this.idCombo=idempleado;
 		this.gender=gender;
+		this.nacion_id=idPais;
 		this.pais1=pais1;
+		this.empleado=empleado;
+		
 		
 	}
+
+
 
 	public String getPais1() {
 		return pais1;
@@ -43,6 +50,22 @@ public class FormEvent extends EventObject{
 
 	public void setPais1(String pais1) {
 		this.pais1 = pais1;
+	}
+
+	public String getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(String empleado) {
+		this.empleado = empleado;
+	}
+
+	public int getNacion_id() {
+		return nacion_id;
+	}
+
+	public void setNacion_id(int nacion_id) {
+		this.nacion_id = nacion_id;
 	}
 
 	public String getGender() {
@@ -53,11 +76,11 @@ public class FormEvent extends EventObject{
 		this.gender = gender;
 	}
 
-	public String getIdCombo() {
+	public int getIdCombo() {
 		return idCombo;
 	}
 
-	public void setIdCombo(String idCombo) {
+	public void setIdCombo(int idCombo) {
 		this.idCombo = idCombo;
 	}
 

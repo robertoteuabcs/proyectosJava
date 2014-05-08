@@ -80,7 +80,7 @@ public class MainFrame extends JFrame {
 					}*/
 				//DatabaseLayer dbl=new DatabaseLayer();
 				if(dbl.isConnected()){
-					ArrayList<FormEvent> list=dbl.resultQueryExec("select * from trabajador");
+					ArrayList<FormEvent> list=dbl.resultQueryExec("select * from program3");
 					for(FormEvent f: list){
 						textPanel.appendText("\n"+
 					"ID: "+f.getId()+"\n"+"Nombre: "+f.getName()+"\n");
@@ -102,8 +102,8 @@ public class MainFrame extends JFrame {
 				//String occupation = e.getOccupation();
 				//textPanel.appendText(name + ": " + occupation +"\n");
 				if(dbl.isConnected()){
-					String sql="INSERT INTO trabajador (nombre,ocupacion,edad,contrato,genero,pais)"+
-							"VALUES('"+e.getName()+"','"+e.getOccupation()+"','"+e.getAgeCatogory()+"','"+e.getIdCombo()+"','"+e.getGender()+"','"+e.getPais1()+"')";
+					String sql="INSERT INTO trabajador (nombre,ocupacion,edad,empleado_id,genero,nacion_id)"+
+							"VALUES('"+e.getName()+"','"+e.getOccupation()+"','"+e.getAgeCatogory()+"','"+e.getIdCombo()+"','"+e.getGender()+"','"+e.getNacion_id()+"')";
 					dbl.queryExec(sql);
 				}
 			}

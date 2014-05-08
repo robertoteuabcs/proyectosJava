@@ -39,7 +39,7 @@ public class FormPanel extends JPanel {
 	private JTextField occupationField;
 	private JButton okBtn,borrar,actualizar;
 	private JList ageList; //Lista las edades	
-	private JComboBox empCombo;
+	private JComboBox empCombo,nacionalidad;
 	private JRadioButton maleRadio;
 	private JRadioButton femeRadio;
 	private JRadioButton otherRadio;
@@ -91,6 +91,7 @@ public class FormPanel extends JPanel {
 		nameField = new JTextField(10);
 		occupationField = new JTextField(10);
 		empCombo =new JComboBox();
+		nacionalidad =new JComboBox();
 		ageList= new JList();//Creamos Lista
 		//Radio Button
 		maleRadio =new JRadioButton("Masculino");
@@ -142,12 +143,28 @@ public class FormPanel extends JPanel {
 		ageList.setBorder(BorderFactory.createEtchedBorder());
 		ageList.setSelectedIndex(0);
 		
+		if(dbl.isConnected()){
 		DefaultComboBoxModel empModel=new DefaultComboBoxModel();
-		empModel.addElement(new EmployeEmplyCategory(33,"Empleado"));
-		empModel.addElement(new EmployeEmplyCategory(22,"Por contrado"));
-		empModel.addElement(new EmployeEmplyCategory(33,"No es Empleado")); 
+		ArrayList<Empleado> list=dbl.resultQueryExecempleado("select * from tipo_empleado");
+		for(Empleado f: list){
+			empModel.addElement(new EmployeEmplyEmpleado(f.getId(),f.getEmpleado()));
+		}
 		empCombo.setModel(empModel);
 		empCombo.setSelectedIndex(0);
+		}
+		
+		if(dbl.isConnected()){
+			DefaultComboBoxModel empModelo=new DefaultComboBoxModel();
+			ArrayList<Nacionalidad> list=dbl.resultQueryExecc("select * from nacionalidad");
+			for(Nacionalidad f: list){
+				empModelo.addElement(new EmployeEmplyPais(f.getId(),f.getNacion()));
+			}
+			nacionalidad.setModel(empModelo);
+			nacionalidad.setSelectedIndex(0);
+			
+		}
+		
+		
 		
 		actualizar=new JButton("Actualizar");
 		actualizar.addActionListener(new ActionListener(){
@@ -172,15 +189,16 @@ public class FormPanel extends JPanel {
 			//ComboBox 
 			EmployeEmplyCategory empCat=(EmployeEmplyCategory)empCombo.getSelectedItem();
 			String idCombo=empCat.toString();
+			int idempleado=empCat.getId();
 					//empCombo.getSelectedItem()
 			//String valor = (String)empCombo.getSelectedItem();
 			//System.out.println(empCat.getId());
 			//System.out.println(ageCat.getId());
 			String gender=genderGroup.getSelection().getActionCommand();
 			//System.out.println(gender);
-			FormEvent ev = new FormEvent(this, name, occupation,id,idCombo,gender,pais1);
+			//FormEvent ev = new FormEvent(this, name, occupation,id,idCombo,gender,pais1);
 				String indice = buscarId.getText();
-				dbl.actQuery(ev,indice);
+				//dbl.actQuery(ev,indice);
 			}
 			
 		});
@@ -194,7 +212,7 @@ public class FormPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				//DatabaseLayer conexion=new DatabaseLayer();
-				String sql = "delete from trabajador where id="+buscarId.getText();
+				String sql = "delete from program3 where id="+buscarId.getText();
 				dbl.borrar(sql);
 				JOptionPane.showMessageDialog(null,"Datos Borrados Correctamente","Confirmacion",
 						JOptionPane.PLAIN_MESSAGE);
@@ -214,14 +232,14 @@ public class FormPanel extends JPanel {
 				Random REdad=new Random();
 				Random RGenero=new Random();
 				Random REmpleado=new Random();
-				if (checkBox.isSelected()==true) {
+				/*if (checkBox.isSelected()==true) {
 		            	pais1=checkBox.getText();
 		        } 
 				else{
 					if(checkBox.isSelected()==false){
 						 pais1=pais.getText();
 					}
-				}
+				}*/
 				String name = nameField.getText();
 				String occupation = occupationField.getText();
 				
@@ -229,15 +247,22 @@ public class FormPanel extends JPanel {
 				AgeCategory ageCat=(AgeCategory)ageList.getSelectedValue();
 				String id=ageCat.toString();
 				//ComboBox 
-				EmployeEmplyCategory empCat=(EmployeEmplyCategory)empCombo.getSelectedItem();
+				EmployeEmplyEmpleado empCat=(EmployeEmplyEmpleado)empCombo.getSelectedItem();
+				int idempleado=empCat.getId();
 				String idCombo=empCat.toString();
+				
+				
+				EmployeEmplyPais agePais=(EmployeEmplyPais)nacionalidad.getSelectedItem();
+				int idPais=agePais.getId();
+				String stringPais=agePais.toString();
+				
 						//empCombo.getSelectedItem()
 				//String valor = (String)empCombo.getSelectedItem();
 				//System.out.println(empCat.getId());
 				//System.out.println(ageCat.getId());
 				String gender=genderGroup.getSelection().getActionCommand();
 				//System.out.println(gender);
-				FormEvent ev = new FormEvent(this, name, occupation,id,idCombo,gender,pais1);
+				FormEvent ev = new FormEvent(this, name, occupation,id,idempleado,gender,idPais,idCombo, stringPais);
 				/*for(int hh=0;hh<100;hh++){
 					int randomGeneradoN=Rnombres.nextInt(24);
 					int randomGeneradoO=Rocupacion.nextInt(24);
@@ -380,14 +405,14 @@ public class FormPanel extends JPanel {
 		add(otherRadio, gc);
 		
 		////////////////////CheckBox//////////////////////
-		gc.weightx = 1;
+		/*gc.weightx = 1;
 		gc.weighty = 0.5;
 		
 		gc.gridy = 8;
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.insets = new Insets(0, 0, 0, 0);
-		add(checkBox, gc);
+		add(checkBox, gc);*/
 		
 		/////////////////Campo de Texto Pais/////
 		
@@ -398,7 +423,7 @@ public class FormPanel extends JPanel {
 		gc.gridy = 9;
 		gc.insets = new Insets(0, 0, 0, 0);
 		gc.anchor = GridBagConstraints.LINE_START;
-		add(pais, gc);
+		add(nacionalidad, gc);
 
 		////////////Third row ///////////////////////////////////
 		
@@ -479,6 +504,42 @@ class EmployeEmplyCategory{
 	private String text;
 	
 	public EmployeEmplyCategory(int id, String text){
+		this.id=id;
+		this.text=text;
+	}
+	//Setenable
+	public String toString(){
+		return text;
+	}
+	
+	public int getId(){
+		return id;
+	}
+}
+
+class EmployeEmplyPais{
+	private int id;
+	private String text;
+	
+	public EmployeEmplyPais(int id, String text){
+		this.id=id;
+		this.text=text;
+	}
+	//Setenable
+	public String toString(){
+		return text;
+	}
+	
+	public int getId(){
+		return id;
+	}
+}
+
+class EmployeEmplyEmpleado{
+	private int id;
+	private String text;
+	
+	public EmployeEmplyEmpleado(int id, String text){
 		this.id=id;
 		this.text=text;
 	}

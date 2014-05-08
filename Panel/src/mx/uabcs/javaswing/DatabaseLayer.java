@@ -14,7 +14,7 @@ public class DatabaseLayer {
 	private ResultSet rs;
 	
 	private String server="localhost:3306";
-	private String db= "bdtrabajador";
+	private String db= "program3";
 	private String user="root";
 	private String pwd="root";
 	
@@ -54,6 +54,46 @@ public class DatabaseLayer {
 		}
 	}
 	
+	public ArrayList<Nacionalidad> resultQueryExecc(String sql){
+		ArrayList<Nacionalidad> list=new ArrayList<Nacionalidad>();
+		try {
+			rs=stm.executeQuery(sql);
+			while(rs.next())
+			{
+				Nacionalidad item=new Nacionalidad(this);
+				item.setId(rs.getInt("id"));
+				item.setNacion(rs.getString("nacion"));
+				list.add(item);
+			}
+			rs.close();
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<Empleado> resultQueryExecempleado(String sql){
+		ArrayList<Empleado> list=new ArrayList<Empleado>();
+		try {
+			rs=stm.executeQuery(sql);
+			while(rs.next())
+			{
+				Empleado item=new Empleado(this);
+				item.setId(rs.getInt("id"));
+				item.setEmpleado(rs.getString("empleado"));
+				list.add(item);
+			}
+			rs.close();
+			return list;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public ArrayList<FormEvent> resultQueryExec(String sql){
 		ArrayList<FormEvent> list=new ArrayList<FormEvent>();
 		try {
@@ -65,10 +105,12 @@ public class DatabaseLayer {
 				item.setName(rs.getString("nombre"));
 				item.setOccupation(rs.getString("ocupacion"));
 				item.setAgeCatogory(rs.getString("edad"));
-				item.setIdCombo(rs.getString("contrato"));
+				//item.setIdCombo(rs.getInt("contrato"));
 				item.setGender(rs.getString("genero"));
-				item.setPais1(rs.getString("pais"));
+				//item.setPais1(rs.getString("pais"));
+				
 				item.setId(rs.getInt("id"));
+				
 				list.add(item);
 			}
 			rs.close();
@@ -96,7 +138,7 @@ public class DatabaseLayer {
 				"edad="+fe.getAgeCatogory()+","+
 				"contrato="+"'"+fe.getIdCombo()+"',"+
 				"genero="+"'"+fe.getGender()+"',"+
-				"pais="+"'"+fe.getPais1()+"'"+
+				"nacion_id="+"'"+fe.getNacion_id()+"'"+
 				" where id="+indice+";";
 				System.out.println(sql);
 				stm.executeUpdate(sql);
